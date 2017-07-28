@@ -1,0 +1,15 @@
+'Automatically Copy/Past Facebook page Email to CSV using iMacros Firefox Browser Extension.
+'SET !TIMEOUT_STEP 100
+SET !EXTRACT_TEST_POPUP NO
+SET !DATASOURCE "Input.csv"
+SET !LOOP 2
+SET !DATASOURCE_LINE {{!LOOP}}
+URL GOTO="{{!COL1}}"
+TAG POS=1 TYPE=A ATTR=TXT:About
+TAG POS=1 TYPE=DIV ATTR=ID:content_container EXTRACT=HTM
+SET !VAR2 EVAL("'{{!EXTRACT}}'.match(/(([^<>()[\\]\\\.,;:\\s@\\\"]+(\\.[^<>()[\\]\\\.,;:\\s@\\\"]+)*)|(\\\".+\\\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))/g)[0];")
+'PROMPT {{!VAR2}}
+SET !EXTRACT null
+SET !EXTRACT {{!COL1}}
+ADD !EXTRACT {{!VAR2}}
+SAVEAS TYPE=EXTRACT FOLDER=G:\scraping\houlihanlawrence\ FILE=Result.csv
